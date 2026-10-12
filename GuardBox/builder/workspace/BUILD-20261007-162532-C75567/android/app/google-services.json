@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "375403627591",
+    "firebase_url": "https://trinetra-fca4f-default-rtdb.firebaseio.com",
+    "project_id": "trinetra-fca4f",
+    "storage_bucket": "trinetra-fca4f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:375403627591:android:2ad20e32679592734a5d62",
+        "android_client_info": {
+          "package_name": "com.veronic.Trinetra"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnejs_lDaXiI3AGJGKeOli6TjcvVgZmZc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

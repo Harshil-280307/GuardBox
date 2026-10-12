@@ -1,0 +1,50 @@
+{
+  "rules": {
+    "guardbox": {
+      "devices": {
+        "$device_id": {
+          ".read": "auth != null && (data.child('owner_id').val() === auth.uid || root.child('guardbox/shops/' + data.child('shop_id').val() + '/members/' + auth.uid).exists() || root.child('guardbox/users/' + auth.uid + '/shops/' + data.child('shop_id').val()).exists() || !data.hasChild('owner_id') || data.child('owner_id').val() === '' || data.child('owner_id').val() === null || !data.exists())",
+          ".write": "auth != null && (!data.exists() || data.child('owner_id').val() === auth.uid || !data.hasChild('owner_id') || data.child('owner_id').val() === '')",
+          ".validate": "newData.hasChildren(['name', 'online', 'status', 'last_seen', 'device_id'])"
+        }
+      },
+      "shops": {
+        "$shop_id": {
+          ".read": "auth != null && (data.child('owner_id').val() === auth.uid || data.child('members/' + auth.uid).exists() || root.child('guardbox/users/' + auth.uid + '/shops/' + $shop_id).exists() || !data.hasChild('owner_id') || data.child('owner_id').val() === '')",
+          ".write": "auth != null && (!data.exists() || data.child('owner_id').val() === auth.uid || !data.hasChild('owner_id'))"
+        }
+      },
+      "commands": {
+        "$device_id": {
+          "pending": {
+            ".read": "auth != null && (root.child('guardbox/devices/' + $device_id + '/owner_id').val() === auth.uid || root.child('guardbox/shops/' + root.child('guardbox/devices/' + $device_id + '/shop_id').val() + '/members/' + auth.uid).exists() || !root.child('guardbox/devices/' + $device_id + '/owner_id').exists() || root.child('guardbox/devices/' + $device_id + '/owner_id').val() === '')",
+            "$command_id": {
+              ".read": "auth != null && (root.child('guardbox/devices/' + $device_id + '/owner_id').val() === auth.uid || root.child('guardbox/shops/' + root.child('guardbox/devices/' + $device_id + '/shop_id').val() + '/members/' + auth.uid).exists() || !root.child('guardbox/devices/' + $device_id + '/owner_id').exists() || root.child('guardbox/devices/' + $device_id + '/owner_id').val() === '' || data.child('requested_by').val() === auth.uid)",
+              ".write": "auth != null && (root.child('guardbox/devices/' + $device_id + '/owner_id').val() === auth.uid || root.child('guardbox/shops/' + root.child('guardbox/devices/' + $device_id + '/shop_id').val() + '/members/' + auth.uid).exists() || !root.child('guardbox/devices/' + $device_id + '/owner_id').exists() || root.child('guardbox/devices/' + $device_id + '/owner_id').val() === '' || data.child('requested_by').val() === auth.uid)",
+              ".validate": "newData.hasChildren(['command', 'created_at', 'requested_by', 'status']) && (newData.child('command').val() === 'ARM' || newData.child('command').val() === 'DISARM' || newData.child('command').val() === 'SILENCE')"
+            }
+          }
+        }
+      },
+      "alerts": {
+        "$device_id": {
+          ".read": "auth != null && (root.child('guardbox/devices/' + $device_id + '/owner_id').val() === auth.uid || root.child('guardbox/shops/' + root.child('guardbox/devices/' + $device_id + '/shop_id').val() + '/members/' + auth.uid).exists() || !root.child('guardbox/devices/' + $device_id + '/owner_id').exists() || root.child('guardbox/devices/' + $device_id + '/owner_id').val() === '')",
+          ".write": "auth != null && (root.child('guardbox/devices/' + $device_id + '/owner_id').val() === auth.uid || !root.child('guardbox/devices/' + $device_id + '/owner_id').exists() || root.child('guardbox/devices/' + $device_id + '/owner_id').val() === '')"
+        }
+      },
+      "alert_history": {
+        "$device_id": {
+          ".read": "auth != null && (root.child('guardbox/devices/' + $device_id + '/owner_id').val() === auth.uid || root.child('guardbox/shops/' + root.child('guardbox/devices/' + $device_id + '/shop_id').val() + '/members/' + auth.uid).exists() || !root.child('guardbox/devices/' + $device_id + '/owner_id').exists() || root.child('guardbox/devices/' + $device_id + '/owner_id').val() === '')",
+          ".write": false,
+          ".indexOn": ["created_at", "alert_id", "status"]
+        }
+      },
+      "notification_tokens": {
+        "$uid": {
+          ".read": "auth != null && auth.uid === $uid",
+          ".write": "auth != null && auth.uid === $uid"
+        }
+      }
+    }
+  }
+}

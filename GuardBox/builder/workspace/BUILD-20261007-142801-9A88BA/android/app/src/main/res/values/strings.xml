@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">TRINETRA</string>
+    <string name="channel_emergency_name">TRINETRA Security Alerts</string>
+    <string name="channel_emergency_desc">High-priority security notification with alert sound and vibration</string>
+</resources>

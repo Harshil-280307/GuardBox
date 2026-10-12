@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "459421854444",
+    "firebase_url": "https://guardbox-jewelleryshop-default-rtdb.firebaseio.com",
+    "project_id": "guardbox-jewelleryshop",
+    "storage_bucket": "guardbox-jewelleryshop.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:459421854444:android:8dad3f5d21125fcd36d3c9",
+        "android_client_info": {
+          "package_name": "com.veronic.guardbox"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAiTZbHAbMrFfvgvqIfn4ht5eFMyN2ASE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

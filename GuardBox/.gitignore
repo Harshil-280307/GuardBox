@@ -1,0 +1,15 @@
+
+# Gradle generated files
+.gradle/
+**/.gradle/
+**/build/
+
+# Python generated files
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Environment secrets
+.env
+**/.env

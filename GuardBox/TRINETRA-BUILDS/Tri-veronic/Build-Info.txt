@@ -1,0 +1,14 @@
+TRINETRA
+Customer Build Information
+==================================================
+Shop Name: Tri-veronic
+Shop ID: Shop-RJK-001
+Device ID: TRI-VER-001
+Device Name: Veronic_main_office
+Firebase Database: configured
+Supabase Storage: configured
+Windows Package: generated (Setup.exe installer)
+Android APK: generated (debug APK)
+Builder Version: 1.0.0
+Build Date: 2026-10-08T16:25:07.942963
+==================================================

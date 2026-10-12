@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TRINETRA Builder V1 — Veronic Internal Tool</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #0B0F17;
+      --bg-card: #111827;
+      --bg-card-sub: #1A2234;
+      --bg-input: #0D131F;
+      --border-color: #1F293D;
+      --border-focus: #3B82F6;
+      --text-main: #F3F4F6;
+      --text-muted: #94A3B8;
+      --text-dim: #64748B;
+      --accent-blue: #2563EB;
+      --accent-blue-hover: #1D4ED8;
+      --accent-green: #10B981;
+      --accent-amber: #F59E0B;
+      --accent-red: #EF4444;
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      line-height: 1.5;
+      padding: 24px;
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; }
+    
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 20px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-logo {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, #2563EB, #06B6D4);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 18px; color: #fff;
+    }
+    .brand-title { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
+    .brand-subtitle { font-size: 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+    .badge-internal {
+      background: rgba(239, 68, 68, 0.15);
+      color: #F87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      padding: 4px 10px; border-radius: 9999px;
+      font-size: 11px; font-weight: 600; text-transform: uppercase;
+    }
+
+    .grid-layout { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 24px; }
+    @media (max-width: 960px) { .grid-layout { grid-template-columns: 1fr; } }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .card-title {
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-group { margin-bottom: 14px; }
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .form-control {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 9px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-family: inherit;
+      transition: border-color 0.15s ease;
+    }
+    .form-control:focus { outline: none; border-color: var(--border-focus); }
+    textarea.form-control { font-family: 'JetBrains Mono', monospace; font-size: 11px; resize: vertical; min-height: 80px; }
+
+    .grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .file-drop-area {
+      border: 1px dashed var(--border-color);
+      border-radius: 6px;
+      padding: 10px;
+      text-align: center;
+      background: var(--bg-input);
+      cursor: pointer;
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+    .file-drop-area:hover { border-color: var(--text-muted); }
+
+    .checkbox-group { display: flex; gap: 20px; margin-top: 10px; }
+    .checkbox-label {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 500; cursor: pointer;
+    }
+
+    .btn-group { display: flex; gap: 12px; margin-top: 20px; }
+    .btn {
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .btn-primary { background: var(--accent-blue); color: #fff; flex: 2; }
+    .btn-primary:hover { background: var(--accent-blue-hover); }
+    .btn-secondary { background: var(--bg-card-sub); border: 1px solid var(--border-color); color: var(--text-main); flex: 1; }
+    .btn-secondary:hover { background: #253147; }
+    .btn-outline { background: transparent; border: 1px solid var(--border-color); color: var(--text-dim); }
+    .btn-outline:hover { color: var(--text-main); border-color: var(--text-muted); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* Output Section */
+    .log-container {
+      background: #06090F;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      height: 380px;
+      overflow-y: auto;
+      color: #A0AEC0;
+    }
+    .log-line { margin-bottom: 4px; line-height: 1.4; word-break: break-all; }
+    .log-stage { color: #60A5FA; font-weight: 600; }
+    .log-success { color: #34D399; }
+    .log-error { color: #F87171; }
+    .log-warn { color: #FBBF24; }
+
+    .status-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .status-pass { background: rgba(16, 185, 129, 0.2); color: #34D399; }
+    .status-fail { background: rgba(239, 68, 68, 0.2); color: #F87171; }
+    .status-idle { background: rgba(148, 163, 184, 0.2); color: #94A3B8; }
+
+    .artifacts-list { margin-top: 12px; list-style: none; }
+    .artifacts-list li {
+      background: var(--bg-card-sub);
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid var(--border-color);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="brand-logo">T</div>
+        <div>
+          <div class="brand-title">TRINETRA BUILDER V1</div>
+          <div class="brand-subtitle">Customer Build & Packaging Generator</div>
+        </div>
+      </div>
+      <div class="badge-internal">INTERNAL USE ONLY</div>
+    </header>
+
+    <div class="grid-layout">
+      <!-- Form Column -->
+      <div>
+        <form id="builderForm">
+          <!-- 1. Customer Information -->
+          <div class="card">
+            <div class="card-title">1. Customer Information</div>
+            <div class="grid-2col">
+              <div class="form-group">
+                <label for="shop_name">Shop Name *</label>
+                <input type="text" id="shop_name" class="form-control" placeholder="e.g. Rajkot Jewellery" required>
+              </div>
+              <div class="form-group">
+                <label for="shop_id">Shop ID *</label>
+                <input type="text" id="shop_id" class="form-control" placeholder="e.g. SHOP-RK-001" required>
+              </div>
+            </div>
+            <div class="grid-2col">
+              <div class="form-group">
+                <label for="device_id">Device ID *</label>
+                <input type="text" id="device_id" class="form-control" placeholder="e.g. TRI-7F29A8C4" required>
+              </div>
+              <div class="form-group">
+                <label for="device_name">Device Name *</label>
+                <input type="text" id="device_name" class="form-control" placeholder="e.g. Rajkot Jewellery Main Security" required>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Firebase Configuration -->
+          <div class="card">
+            <div class="card-title">2. Firebase Configuration</div>
+            <div class="form-group">
+              <label for="firebase_db_url">Firebase Realtime Database URL *</label>
+              <input type="url" id="firebase_db_url" class="form-control" placeholder="https://example-default-rtdb.firebaseio.com" required>
+            </div>
+            <div class="form-group">
+              <label for="firebase_sa">Firebase Service Account JSON (Windows Backend) *</label>
+              <textarea id="firebase_sa" class="form-control" placeholder='Paste serviceAccountKey.json content here or upload below'></textarea>
+              <input type="file" id="file_firebase_sa" style="display:none;" accept=".json">
+              <div class="file-drop-area" onclick="document.getElementById('file_firebase_sa').click()">
+                📂 Click to select serviceAccountKey.json
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="google_services">google-services.json (Android Client) *</label>
+              <textarea id="google_services" class="form-control" placeholder='Paste google-services.json content here or upload below'></textarea>
+              <input type="file" id="file_google_services" style="display:none;" accept=".json">
+              <div class="file-drop-area" onclick="document.getElementById('file_google_services').click()">
+                📂 Click to select google-services.json
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Supabase Configuration -->
+          <div class="card">
+            <div class="card-title">3. Supabase Configuration</div>
+            <div class="grid-2col">
+              <div class="form-group">
+                <label for="supabase_url">Supabase URL *</label>
+                <input type="url" id="supabase_url" class="form-control" placeholder="https://xyz.supabase.co" required>
+              </div>
+              <div class="form-group">
+                <label for="supabase_bucket">Storage Bucket *</label>
+                <input type="text" id="supabase_bucket" class="form-control" value="snapshots" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="supabase_secret">Supabase Secret Key (Windows Only) *</label>
+              <input type="password" id="supabase_secret" class="form-control" placeholder="Service Role Secret Key" required>
+            </div>
+          </div>
+
+          <!-- 4. Veronic Admin Configuration -->
+          <div class="card">
+            <div class="card-title">4. Veronic Admin Credentials (Windows Only)</div>
+            <div class="grid-2col">
+              <div class="form-group">
+                <label for="admin_user">Admin Username *</label>
+                <input type="text" id="admin_user" class="form-control" value="admin" required>
+              </div>
+              <div class="form-group">
+                <label for="admin_secret">Admin Secret / Password *</label>
+                <input type="password" id="admin_secret" class="form-control" placeholder="Admin password" required>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. Build Options -->
+          <div class="card">
+            <div class="card-title">5. Build Targets</div>
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="build_windows" checked> Build Windows Package
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" id="build_android" checked> Build Android APK
+              </label>
+            </div>
+
+            <div class="btn-group">
+              <button type="button" class="btn btn-secondary" id="btnValidate">VALIDATE CONFIGURATION</button>
+              <button type="button" class="btn btn-primary" id="btnBuild">BUILD CUSTOMER PACKAGE</button>
+              <button type="button" class="btn btn-outline" id="btnClear">CLEAR FORM</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Output / Logs Column -->
+      <div>
+        <div class="card">
+          <div class="card-title">Build Status & Verification</div>
+          <div style="display: flex; gap: 12px; margin-bottom: 16px;">
+            <div>Windows: <span id="statusWin" class="status-badge status-idle">IDLE</span></div>
+            <div>Android: <span id="statusAndroid" class="status-badge status-idle">IDLE</span></div>
+            <div>Security Scan: <span id="statusSec" class="status-badge status-idle">IDLE</span></div>
+          </div>
+
+          <div class="form-group">
+            <label>Build Execution Logs</label>
+            <div id="logArea" class="log-container">
+              <div class="log-line log-dim">[System Ready] Enter customer details and click Validate or Build.</div>
+            </div>
+          </div>
+
+          <div id="artifactSection" style="margin-top: 16px; display: none;">
+            <div class="card-title">Generated Customer Artifacts</div>
+            <ul id="artifactList" class="artifacts-list"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // File inputs handler
+    document.getElementById('file_firebase_sa').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt) { document.getElementById('firebase_sa').value = evt.target.result; };
+      reader.readAsText(file);
+    });
+
+    document.getElementById('file_google_services').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt) { document.getElementById('google_services').value = evt.target.result; };
+      reader.readAsText(file);
+    });
+
+    function getPayload() {
+      return {
+        shop_name: document.getElementById('shop_name').value.trim(),
+        shop_id: document.getElementById('shop_id').value.trim(),
+        device_id: document.getElementById('device_id').value.trim(),
+        device_name: document.getElementById('device_name').value.trim(),
+        firebase_db_url: document.getElementById('firebase_db_url').value.trim(),
+        firebase_service_account_json: document.getElementById('firebase_sa').value.trim() || null,
+        google_services_json: document.getElementById('google_services').value.trim() || null,
+        supabase_url: document.getElementById('supabase_url').value.trim(),
+        supabase_bucket: document.getElementById('supabase_bucket').value.trim() || 'snapshots',
+        supabase_secret_key: document.getElementById('supabase_secret').value.trim() || null,
+        veronic_admin_user: document.getElementById('admin_user').value.trim() || 'admin',
+        veronic_admin_secret: document.getElementById('admin_secret').value.trim() || null,
+        build_windows: document.getElementById('build_windows').checked,
+        build_android: document.getElementById('build_android').checked
+      };
+    }
+
+    function appendLog(msg, type = 'info') {
+      const logArea = document.getElementById('logArea');
+      const div = document.createElement('div');
+      div.className = 'log-line';
+      if (type === 'stage') div.className += ' log-stage';
+      if (type === 'error') div.className += ' log-error';
+      if (type === 'success') div.className += ' log-success';
+      if (type === 'warn') div.className += ' log-warn';
+      div.textContent = msg;
+      logArea.appendChild(div);
+      logArea.scrollTop = logArea.scrollHeight;
+    }
+
+    // Validate
+    document.getElementById('btnValidate').addEventListener('click', async () => {
+      appendLog('--- VALIDATING CONFIGURATION ---', 'stage');
+      const payload = getPayload();
+      try {
+        const res = await fetch('/api/validate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.is_valid) {
+          appendLog('Configuration is VALID! Ready for build.', 'success');
+        } else {
+          appendLog('Configuration VALIDATION FAILED:', 'error');
+          const errList = Array.isArray(data.errors) ? data.errors : (data.detail ? (Array.isArray(data.detail) ? data.detail.map(d => `${d.loc ? d.loc.join('.') + ': ' : ''}${d.msg}`) : [String(data.detail)]) : ['Validation failed.']);
+          errList.forEach(err => appendLog(`  • ${err}`, 'error'));
+        }
+      } catch (err) {
+        appendLog(`Validation error: ${err.message}`, 'error');
+      }
+    });
+
+    // Build
+    document.getElementById('btnBuild').addEventListener('click', async () => {
+      const btn = document.getElementById('btnBuild');
+      btn.disabled = true;
+      document.getElementById('btnValidate').disabled = true;
+      
+      document.getElementById('statusWin').className = 'status-badge status-idle';
+      document.getElementById('statusWin').textContent = 'RUNNING';
+      document.getElementById('statusAndroid').className = 'status-badge status-idle';
+      document.getElementById('statusAndroid').textContent = 'RUNNING';
+      document.getElementById('statusSec').className = 'status-badge status-idle';
+      document.getElementById('statusSec').textContent = 'RUNNING';
+
+      appendLog('=== STARTING BUILD EXECUTION ===', 'stage');
+      const payload = getPayload();
+
+      try {
+        const res = await fetch('/api/build', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        // Update UI logs
+        if (data.logs && Array.isArray(data.logs)) {
+          data.logs.forEach(l => {
+            if (l.includes('[ERROR]') || l.includes('FAIL')) appendLog(l, 'error');
+            else if (l.includes('PASS') || l.includes('complete') || l.includes('SUCCESS')) appendLog(l, 'success');
+            else if (l.startsWith('[')) appendLog(l, 'stage');
+            else appendLog(l);
+          });
+        }
+
+        // Status badges
+        if (data.windows_status) {
+          document.getElementById('statusWin').textContent = data.windows_status;
+          document.getElementById('statusWin').className = 'status-badge ' + (data.windows_status === 'SUCCESS' ? 'status-pass' : 'status-fail');
+        }
+        
+        if (data.android_status) {
+          document.getElementById('statusAndroid').textContent = data.android_status;
+          document.getElementById('statusAndroid').className = 'status-badge ' + (data.android_status === 'SUCCESS' ? 'status-pass' : 'status-fail');
+        }
+
+        if (data.security_scan_status) {
+          document.getElementById('statusSec').textContent = data.security_scan_status;
+          document.getElementById('statusSec').className = 'status-badge ' + (data.security_scan_status === 'PASSED' ? 'status-pass' : 'status-fail');
+        }
+
+        // Artifacts
+        if (data.artifacts && data.artifacts.length > 0) {
+          const list = document.getElementById('artifactList');
+          list.innerHTML = '';
+          data.artifacts.forEach(art => {
+            const li = document.createElement('li');
+            li.textContent = art.split('\\').pop();
+            list.appendChild(li);
+          });
+          document.getElementById('artifactSection').style.display = 'block';
+        }
+
+        if (data.is_success) {
+          appendLog(`BUILD COMPLETED SUCCESSFULLY! Output at: ${data.output_directory}`, 'success');
+        } else {
+          appendLog(`BUILD FAILED. Review errors above.`, 'error');
+          const errList = Array.isArray(data.errors) ? data.errors : (data.detail ? (Array.isArray(data.detail) ? data.detail.map(d => `${d.loc ? d.loc.join('.') + ': ' : ''}${d.msg}`) : [String(data.detail)]) : []);
+          errList.forEach(e => appendLog(`Error: ${e}`, 'error'));
+        }
+      } catch (err) {
+        appendLog(`Build request failed: ${err.message}`, 'error');
+      } finally {
+        btn.disabled = false;
+        document.getElementById('btnValidate').disabled = false;
+      }
+    });
+
+    // Clear
+    document.getElementById('btnClear').addEventListener('click', () => {
+      document.getElementById('builderForm').reset();
+      document.getElementById('logArea').innerHTML = '<div class="log-line">[System Ready] Form cleared.</div>';
+      document.getElementById('artifactSection').style.display = 'none';
+    });
+  </script>
+</body>
+</html>

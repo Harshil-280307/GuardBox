@@ -1,0 +1,12 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // TRINETRA Security Evidence Storage Rules
+    // Only authenticated users (e.g. TRINETRA Android App using Firebase Anonymous Auth) can read evidence
+    match /guardbox/evidence/{deviceId}/{alertId} {
+      allow read: if request.auth != null;
+      // Backend uses Firebase Admin SDK (which bypasses security rules), so client writes are denied
+      allow write: if false;
+    }
+  }
+}
